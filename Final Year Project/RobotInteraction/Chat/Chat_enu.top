@@ -1,0 +1,58 @@
+topic: ~Chat()
+language: enu
+
+# Defining extra concepts out of words or group of words
+#concept:(hello) [hello hi hey "good morning" greetings]
+
+# Catching inputs and triggering outputs
+#u:(e:onStart) $onStopped=1
+
+# Replying to speech
+#u:(~hello) ~hello
+
+concept:(greetings) ^rand[hi hello hey "good morning" "good afternoon" "good evening"] {there} {"to you"}
+concept:(good) [fine "I am fine" "I'm fine" "I'm good" "I am good" good] {"thank you"}
+concept:(bad) [bad "not good" "not well"] {too} {so} {very} {feeling}
+concept:(food) [pasta beef pork rice pizza chicken fish seafood vegetables chinese italian mexican] {and}
+concept:(books_genres) [action classics "comic books" mystery fantasy history horror fiction romance "science fiction" "short stories" thrillers]
+concept:(pets) [dog cat bird fish hamsters ants "guinea pig" mice rabbit turtle] {a}
+concept:(goodbye) ^rand["good night" "good bye" bye]
+
+u:(~greetings) ^run(animations/Stand/Gestures/Hey_1) \rspd=85\~greetings ^goto(ask)
+
+proposal: %ask \rspd=85\How are you?
+    u1:(~good) \style=joyful\\rspd=85\Nice. I'm doing well too. ^nextProposal
+    u1:(~bad) \rspd=85\Sorry to hear that. I can help cheer you up if you want. We could talk about the food, books, or pets.
+        u2:(food): ^goto(food)
+        u2:(books): ^goto(books)
+        u2:(pets): ^goto(pets)
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry I do not understand that word. ^nextProposal
+    
+proposal: %chat %weather \rspd=85\Do we have a nice weather today?
+    u1:(yes) \style=joyful\\rspd=85\Oh, it might be a great time to go for a walk. ^gotoRandom(chat)
+    u1:(no) \rspd=85\Oh that's too bad. Let's change the subject. ^nextProposal
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry, please answer yes or no. ^stayInScope
+
+proposal: %chat %food What is your favourite food?
+    u1:(~food) \rspd=85\That sound delicious. ^gotoRandom(chat)
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry I do not understand that word. ^nextProposal
+    
+proposal: %chat %books \rspd=85\Do you like to read books?
+    u1:(yes) \style=joyful\\rspd=85\That's great. What genres of books do you read?
+        u2:(~books_genres) \rspd=85\Interesting. ^nextProposal
+    u1:(no) \rspd=85\Oh okay. Let's change the topic then. ^nextProposal
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry, please answer yes or no. ^stayInScope
+    
+proposal: %chat %pets \rspd=85\Do you have a pet?
+    u1:(yes) \style=joyful\\rspd=85\Wonderful. What pet do you have?
+        u2:(~pets) \rspd=85\Oh very nice. ^nextProposal
+    u1:(no) \rspd=85\Oh okay. If you would have one, what would it be?
+        u2:(~pets) \rspd=85\Interesting choice.^nextProposal
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry, please answer yes or no. ^stayInScope
+    
+u:(What is your name?) \style=joyful\\rspd=85\My name is Nao Pepper. ^gotoReactivate(ask)
+u:(What is your favourite food?) \style=joyful\\rspd=85\I like rice and beef. ^gotoReactivate(food)
+u:(Do you like to read books?) \style=joyful\\rspd=85\I can't read yet. ^gotoReactivate(books)
+u:(What pet would you like?) \style=joyful\\rspd=85\It would be a dog for me. ^gotoReactivate(pets)
+u:(e:Dialog/NotSpeaking5) ^rand[Hello? "Are you still there?" "Excuse me?" "Please turn me off if you do not want to speak anymore"]
+u:(~goodbye) \rspd=85\~goodbye $onStopped=1

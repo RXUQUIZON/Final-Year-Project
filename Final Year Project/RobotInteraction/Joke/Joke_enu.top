@@ -1,0 +1,19 @@
+topic: ~Joke()
+language: enu
+
+# Defining extra concepts out of words or group of words
+#concept:(hello) [hello hi hey "good morning" greetings]
+
+# Catching inputs and triggering outputs
+#u:(e:onStart) $onStopped=1
+
+# Replying to speech
+#u:(~hello) ~hello
+
+concept:(jokes) ^rand["What do Alexander the Great and Winnie the Pooh have in common? \pau=2000\ They have the same middle name" "Why are koalas not actual bears? \pau=2000\ They do not meet the koalifications" "What do you call bears with no ears? \pau=2000\ B-"]
+concept:(goodbye) ^rand["good night" "good bye" bye]
+
+u: (Please tell a joke) \rspd=85\~jokes
+
+u:(e:Dialog/NotSpeaking5) ^rand[Hello? "Are you still there?" "Excuse me?" "Please turn me off if you do not want to speak anymore"]
+u:(~goodbye) \rspd=85\~goodbye $onStopped=1

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.0.0" uuid="robotinteraction-b01244">
+ <names>
+  <name lang="en_US">Untitled</name>
+ </names>
+ <supportedLanguages>
+  <language>en_US</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>solitary</nature>
+   <permissions/>
+  </behaviorContent>
+  <dialogContent typeVersion="1.0" topicName="Joke">
+   <topic path="Joke/Joke_enu.top" language="en_US"/>
+  </dialogContent>
+  <dialogContent typeVersion="1.0" topicName="Chat">
+   <topic path="Chat/Chat_enu.top" language="en_US"/>
+  </dialogContent>
+  <dialogContent typeVersion="1.0" topicName="Games">
+   <topic path="Games/Games_enu.top" language="en_US"/>
+  </dialogContent>
+ </contents>
+</package>

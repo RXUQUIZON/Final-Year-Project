@@ -1,0 +1,82 @@
+    topic: ~Games()
+language: enu
+
+# Defining extra concepts out of words or group of words
+#concept:(hello) [hello hi hey "good morning" greetings]
+
+# Catching inputs and triggering outputs
+#u:(e:onStart) $onStopped=1
+
+# Replying to speech
+#u:(~hello) ~hello
+
+concept:(play) [play "play games" "play game"] {"Let us"} {"I would like to"} {a}
+concept:(goodbye) ^rand["good night" "good bye" bye]
+
+u:(play) \rspd=85\Okay. Would you like to play some quiz game or rock paper scissor?
+
+u:(quiz) ^gotoRandom(quiz)
+u:(rock paper scissor) ^goto(rps)
+
+proposal: %quiz \rspd=85\What does the WWW stand for?
+    u1:(World Wide Web) \style=joyful\\rspd=85\Correct. Would you like another question?
+        u2:(yes) ^gotoRandom(quiz)
+        u2:(no) \rspd=85\Okay.
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry, wrong answer! The correct answer is World Wide Web. Would you like another question?
+        u2:(yes) ^gotoRandom(quiz)
+        u2:(no) \rspd=85\Okay.
+
+proposal: %quiz \rspd=85\In what year were the first Air Jordan shoes released?
+    u1:(1984) \style=joyful\\rspd=85\Correct. Would you like another question?
+        u2:(yes) ^gotoRandom(quiz)
+        u2:(no) \rspd=85\Okay.
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry, wrong answer! The correct answer is 1984. Would you like another question?
+        u2:(yes) ^gotoRandom(quiz)
+        u2:(no) \rspd=85\Okay.
+        
+proposal: %quiz \rspd=85\According to Greek mythology, who was the first woman on earth?
+    u1:(Pandora) \style=joyful\\rspd=85\Correct. Would you like another question?
+        u2:(yes) ^gotoRandom(quiz)
+        u2:(no) \rspd=85\Okay.
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry, wrong answer! The correct answer is Pandora. Would you like another question?
+        u2:(yes) ^gotoRandom(quiz)
+        u2:(no) \rspd=85\Okay.
+        
+proposal: %rps \rspd=85\Rock, paper, scissor, Rock!
+    u1:(rock) \rspd=85\Draw! Would you like another go?
+        u2:(yes) ^gotoRandom(rps)
+        u2:(no) \rspd=85\Okay.
+    u1:(paper) \rspd=85\You win!
+        u2:(yes) ^gotoRandom(rps)
+        u2:(no) \rspd=85\Okay.
+    u1:(scissor) ^run(animations/Stand/Emotions/Positive/Happy_4) \style=joyful\\rspd=85\I win!
+        u2:(yes) ^gotoRandom(rps)
+        u2:(no) \rspd=85\Okay.
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry please say rock, paper, or scissor.
+
+proposal: %rps \rspd=85\Rock, paper, scissor, Paper!
+    u1:(rock) ^run(animations/Stand/Emotions/Positive/Happy_4) \style=joyful\\rspd=85\I win! Would you like another go?
+        u2:(yes) ^gotoRandom(rps)
+        u2:(no) \rspd=85\Okay.
+    u1:(paper) \rspd=85\Draw!
+        u2:(yes) ^gotoRandom(rps)
+        u2:(no) \rspd=85\Okay.
+    u1:(scissor) \rspd=85\You win!
+        u2:(yes) ^gotoRandom(rps)
+        u2:(no) \rspd=85\Okay.
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry please say rock, paper, or scissor.
+    
+proposal: %rps \rspd=85\Rock, paper, scissor, Scissor!
+    u1:(rock) \rspd=85\I lose! Would you like another go?
+        u2:(yes) ^gotoRandom(rps)
+        u2:(no) \rspd=85\Okay.
+    u1:(paper) ^run(animations/Stand/Emotions/Positive/Happy_4) \style=joyful\\rspd=85\I win!
+        u2:(yes) ^gotoRandom(rps)
+        u2:(no) \rspd=85\Okay.
+    u1:(scissor) \rspd=85\Draw!
+        u2:(yes) ^gotoRandom(rps)
+        u2:(no) \rspd=85\Okay.
+    u1:(e:Dialog/NotUnderstood) \rspd=85\Sorry please say rock, paper, or scissor.
+
+u:(e:Dialog/NotSpeaking5) ^rand[Hello? "Are you still there?" "Excuse me?" "Please turn me off if you do not want to speak anymore"]
+u:(~goodbye) \rspd=85\~goodbye $onStopped=1
